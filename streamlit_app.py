@@ -5,7 +5,7 @@ st.set_page_config(layout="wide")
 
 st.sidebar.info(
     """
-    - Web App URL: <https://streamlit.geemap.org>
+    - Project URL: <https://www.nina.no/english/About-NINA/Projects/Pareus>
     - GitHub repository: <https://github.com/giswqs/streamlit-geospatial>
     """
 )
@@ -19,7 +19,7 @@ st.sidebar.info(
 )
 
 # Customize page title
-st.title("Streamlit for Geospatial Applications")
+st.title("PAREUS - PCA landscape tools")
 
 st.markdown(
     """

@@ -3,7 +3,7 @@ import leafmap.foliumap as leafmap
 
 
 def app():
-    st.title("Searching Basemaps")
+    st.title("Ecosystem condition accounting")
     st.markdown(
         """
     This app is a demonstration of searching and loading basemaps from [xyzservices](https://github.com/geopandas/xyzservices) and [Quick Map Services (QMS)](https://github.com/nextgis/quickmapservices). Selecting from 1000+ basemaps with a few clicks.  
