@@ -5,7 +5,7 @@ st.set_page_config(layout="wide")
 
 st.sidebar.info(
     """
-    - Project URL: <https://www.nina.no/english/About-NINA/Projects/Pareus>
+    - Project URL: <https://streamlit.geemap.org>
     - GitHub repository: <https://github.com/giswqs/streamlit-geospatial>
     """
 )
