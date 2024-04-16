@@ -2,8 +2,6 @@ import ee
 import streamlit as st
 import folium
 
-# Initialize Google Earth Engine
-ee.Initialize()
 
 # Function to display an EE Image on a folium map
 def display_ee_image(image, region, vis_params={}):
