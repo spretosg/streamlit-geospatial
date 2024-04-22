@@ -132,4 +132,4 @@ dmypy.json
 .pyre/
 
 #bq
-.secrets/
+.secrets.toml
