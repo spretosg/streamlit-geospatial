@@ -29,12 +29,12 @@ def main():
 
     # Add the rectangle geometry to a FeatureCollection
     rectangle_fc = ee.FeatureCollection(rectangle)
-      task = ee.batch.Export.table.toBigQuery(
+    task = ee.batch.Export.table.toBigQuery(
       collection=rectangle_fc,
       table='pareus.earth_engine.mytable',
       description='put_my_data_in_bigquery',
       append=False)
-task.start()
+    task.start()
 
     # Load an Earth Engine image
     image = ee.Image('MODIS/006/MOD09GA/2021_01_01')
