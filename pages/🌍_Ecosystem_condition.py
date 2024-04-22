@@ -15,18 +15,8 @@ def display_ee_image(image, region, vis_params={}):
 def main():
     st.title('Google Earth Engine App with Streamlit')
 
-    # Define a region of interest (for demonstration, using a bounding box)
-    min_x, max_x = -180, 180
-    min_y, max_y = -90, 90
-
-    # Randomly generate coordinates for the rectangle
-    x1 = random.uniform(min_x, max_x)
-    x2 = random.uniform(min_x, max_x)
-    y1 = random.uniform(min_y, max_y)
-    y2 = random.uniform(min_y, max_y)
-
     # Create a geometry representing the rectangle
-    rectangle = ee.Geometry.Rectangle([x1, y1, x2, y2])
+    rectangle = ee.Geometry.Rectangle(-122.09, 37.42, -122.08, 37.43)
 
     # Add the rectangle geometry to a FeatureCollection
     rectangle_fc = ee.FeatureCollection(rectangle)
