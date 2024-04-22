@@ -1,6 +1,7 @@
 import ee
 import streamlit as st
 import folium
+import random
 
 
 # Function to display an EE Image on a folium map
