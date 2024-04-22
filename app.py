@@ -1,49 +1,26 @@
 import streamlit as st
-import leafmap.foliumap as leafmap
+from google.oauth2 import service_account
+from google.cloud import bigquery
 
-st.set_page_config(layout="wide")
-
-st.sidebar.info(
-    """
-    - Web App URL: <https://streamlit.geemap.org>
-    - GitHub repository: <https://github.com/giswqs/streamlit-geospatial>
-    """
+# Create API client.
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
 )
+client = bigquery.Client(credentials=credentials)
 
-st.sidebar.title("Contact")
-st.sidebar.info(
-    """
-    Qiusheng Wu: <https://wetlands.io>
-    [GitHub](https://github.com/giswqs) | [Twitter](https://twitter.com/giswqs) | [YouTube](https://www.youtube.com/c/QiushengWu) | [LinkedIn](https://www.linkedin.com/in/qiushengwu)
-    """
-)
+# Perform query.
+# Uses st.cache_data to only rerun when the query changes or after 10 min.
+@st.cache_data(ttl=600)
+def run_query(query):
+    query_job = client.query(query)
+    rows_raw = query_job.result()
+    # Convert to list of dicts. Required for st.cache_data to hash the return value.
+    rows = [dict(row) for row in rows_raw]
+    return rows
 
-st.title("Streamlit for Geospatial Applications")
+rows = run_query("SELECT word FROM `bigquery-public-data.samples.shakespeare` LIMIT 10")
 
-st.markdown(
-    """
-    This multi-page web app demonstrates various interactive web apps created using [streamlit](https://streamlit.io) and open-source mapping libraries, 
-    such as [leafmap](https://leafmap.org), [geemap](https://geemap.org), [pydeck](https://deckgl.readthedocs.io), and [kepler.gl](https://docs.kepler.gl/docs/keplergl-jupyter).
-    This is an open-source project and you are very welcome to contribute your comments, questions, resources, and apps as [issues](https://github.com/giswqs/streamlit-geospatial/issues) or 
-    [pull requests](https://github.com/giswqs/streamlit-geospatial/pulls) to the [GitHub repository](https://github.com/giswqs/streamlit-geospatial).
-
-    """
-)
-
-st.info("Click on the left sidebar menu to navigate to the different apps.")
-
-st.subheader("Timelapse of Satellite Imagery")
-st.markdown(
-    """
-    The following timelapse animations were created using the Timelapse web app. Click `Timelapse` on the left sidebar menu to create your own timelapse for any location around the globe.
-"""
-)
-
-row1_col1, row1_col2 = st.columns(2)
-with row1_col1:
-    st.image("https://github.com/giswqs/data/raw/main/timelapse/spain.gif")
-    st.image("https://github.com/giswqs/data/raw/main/timelapse/las_vegas.gif")
-
-with row1_col2:
-    st.image("https://github.com/giswqs/data/raw/main/timelapse/goes.gif")
-    st.image("https://github.com/giswqs/data/raw/main/timelapse/fire.gif")
+# Print results.
+st.write("Some wise words from Shakespeare:")
+for row in rows:
+    st.write("✍️ " + row['word'])
