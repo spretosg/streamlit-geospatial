@@ -15,7 +15,26 @@ def main():
     st.title('Google Earth Engine App with Streamlit')
 
     # Define a region of interest (for demonstration, using a bounding box)
-    bbox = ee.Geometry.BBox(-180, -90, 180, 90)
+    min_x, max_x = -180, 180
+    min_y, max_y = -90, 90
+
+    # Randomly generate coordinates for the rectangle
+    x1 = random.uniform(min_x, max_x)
+    x2 = random.uniform(min_x, max_x)
+    y1 = random.uniform(min_y, max_y)
+    y2 = random.uniform(min_y, max_y)
+
+    # Create a geometry representing the rectangle
+    rectangle = ee.Geometry.Rectangle([x1, y1, x2, y2])
+
+    # Add the rectangle geometry to a FeatureCollection
+    rectangle_fc = ee.FeatureCollection(rectangle)
+      task = ee.batch.Export.table.toBigQuery(
+      collection=rectangle_fc,
+      table='pareus.earth_engine.mytable',
+      description='put_my_data_in_bigquery',
+      append=False)
+task.start()
 
     # Load an Earth Engine image
     image = ee.Image('MODIS/006/MOD09GA/2021_01_01')
