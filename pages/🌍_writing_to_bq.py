@@ -1,6 +1,7 @@
 import ee
 import streamlit as st
 import folium
+import geemap.foliumap as geemap
 
 
 # Function to display an EE Image on a folium map
@@ -16,42 +17,25 @@ def main():
 
     # Draw a rectangle on the map
     st.subheader('Draw a Rectangle on the Map')
-    drawn_shape = st.map()
-    drawn_json = drawn_shape.json_data
+    Map = geemap.Map(center=[40, -100], zoom=4)
+    image = ee.Image("USGS/SRTMGL1_003")
+    # Set visualization parameters.
+    vis_params = {
+        "min": 0,
+        "max": 4000,
+        "palette": ["006633", "E5FFCC", "662A00", "D8D8D8", "F5F5F5"],
+    }
 
-    # Additional form fields
-    additional_info = st.text_input('Additional Information')
+    width = 950
+    height = 600
 
-    # Button to submit
-    if st.button('Submit'):
-        # Extract rectangle coordinates
-        coordinates = drawn_json['features'][0]['geometry']['coordinates'][0]
-        # Convert coordinates to a format usable by Earth Engine
-        rect = ee.Geometry.Rectangle(coordinates)
-        # Load an Earth Engine image
-        image = ee.Image('MODIS/006/MOD09GA/2021_01_01')
-        # Clip the image to the drawn rectangle
-        clipped_image = image.clip(rect)
-        # Display the clipped image
-        st.subheader('Clipped Image')
-        folium_figure = folium.Figure(width=1000, height=500)
-        display_ee_image(clipped_image, folium_figure)
-        st.write(folium_figure._repr_html_(), unsafe_allow_html=True)
+    # Add Earth Engine DEM to map
+    Map.addLayer(image, vis_params, "SRTM DEM")
 
-        # Save data to BigQuery
-        # Assuming you have a BigQuery table called 'drawn_rectangles'
-        task = ee.batch.Export.table.toBigQuery(
-            collection=rect,
-            table='pareus.earth_engine.mytable',
-            description='put_my_data_in_bigquery',
-            append=False)
-        task.start()
+    Map.draw_features
 
-
-        if errors == []:
-            st.success('Data inserted successfully into BigQuery')
-        else:
-            st.error(f'Error inserting data into BigQuery: {errors}')
+    roi = ee.FeatureCollection(Map.draw_features)
+    Map.to_streamlit(width=width, height=height)
 
 if __name__ == "__main__":
     main()
