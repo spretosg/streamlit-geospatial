@@ -13,7 +13,7 @@ def display_ee_image(image, region, vis_params={}):
 
 # Streamlit app
 def main():
-    st.title('Google Earth Engine App with Streamlit')
+    st.title('Google Earth Engine - bigquery')
 
     # Draw a rectangle on the map
     st.subheader('Draw a Rectangle on the Map')
