@@ -8,8 +8,6 @@ import geemap.foliumap as geemap
 def ee_authenticate(token_name="EARTHENGINE_TOKEN"):
     geemap.ee_initialize(token_name=token_name)
 
-ee.Initialize()
-
 
 # Function to display an EE Image on a folium map
 def display_ee_image(image, region, vis_params={}):
