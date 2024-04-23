@@ -1,3 +1,5 @@
+# streamlit_app.py
+
 import streamlit as st
 from google.oauth2 import service_account
 from google.cloud import bigquery
@@ -18,9 +20,11 @@ def run_query(query):
     rows = [dict(row) for row in rows_raw]
     return rows
 
-rows = run_query("SELECT word FROM `bigquery-public-data.samples.shakespeare` LIMIT 10")
+rows = run_query("SELECT area_descr FROM `pareus.admin_data.studySite` LIMIT 10")
+
 
 # Print results.
 st.write("Some wise words from Shakespeare:")
 for row in rows:
-    st.write("✍️ " + row['word'])
+    st.write("✍️ " + row['area_descr'])
+    
