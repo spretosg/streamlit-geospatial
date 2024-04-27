@@ -18,7 +18,7 @@ st.sidebar.info(
     """
 )
 
-st.title("Streamlit for Geospatial Applications")
+st.title("PAREUS PCA landscape tool")
 
 st.markdown(
     """

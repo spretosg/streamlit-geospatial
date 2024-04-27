@@ -1,46 +1,49 @@
-import ee
 import streamlit as st
-import folium
-import geemap.foliumap as geemap
 
+st.set_page_config(
+    page_title="streamlit-folium documentation: Draw Support",
+    page_icon=":pencil:",
+    layout="wide",
+)
 
-@st.cache_data
-def ee_authenticate(token_name="EARTHENGINE_TOKEN"):
-    geemap.ee_initialize(token_name=token_name)
+"""
+# streamlit-folium: Draw Support
 
+Folium supports some of the [most popular leaflet
+plugins](https://python-visualization.github.io/folium/plugins.html). In this example,
+we can add the
+[`Draw`](https://python-visualization.github.io/folium/plugins.html#folium.plugins.Draw)
+plugin to our map, which allows for drawing geometric shapes on the map.
 
-# Function to display an EE Image on a folium map
-def display_ee_image(image, region, vis_params={}):
-    map_id_dict = image.getMapId(vis_params)
-    folium.Map(location=[0, 0], zoom_start=2).add_ee_layer(
-        ee.Image(image), vis_params, 'image', True, 0.6).add_child(
-            folium.LayerControl()).add_to(region)
+When a shape is drawn on the map, the coordinates that represent that shape are passed
+back as a geojson feature via the `all_drawings` and `last_active_drawing` data fields.
 
-# Streamlit app
-def main():
-    st.title('Google Earth Engine - bigquery')
+Draw something below to see the return value back to Streamlit!
+"""
 
-    # Draw a rectangle on the map
-    st.subheader('Draw a Rectangle on the Map')
-    Map = geemap.Map(center=[40, -100], zoom=4)
-    image = ee.Image("USGS/SRTMGL1_003")
-    # Set visualization parameters.
-    vis_params = {
-        "min": 0,
-        "max": 4000,
-        "palette": ["006633", "E5FFCC", "662A00", "D8D8D8", "F5F5F5"],
-    }
+with st.echo(code_location="below"):
+    import folium
+    import streamlit as st
+    from folium.plugins import Draw
 
-    width = 950
-    height = 600
+    from streamlit_folium import st_folium
 
-    # Add Earth Engine DEM to map
-    Map.addLayer(image, vis_params, "SRTM DEM")
+    m = folium.Map(location=[64, 10], zoom_start=5)
+    Draw(
+        export=False,
+        position="topleft",
+        draw_options={
+            "polyline": False,
+            "poly": False,
+            "circle": False,
+            "polygon": False,
+            "marker": False,
+            "circlemarker": False,
+            "rectangle": True,
+        },
+    ).add_to(m)
 
-    Map.draw_features
+    #c1, c2 = st.columns(2)
+    c1 = st.columns(1)
+    c1 = st_folium(m, width=900, height=500)
 
-    roi = ee.FeatureCollection(Map.draw_features)
-    Map.to_streamlit(width=width, height=height)
-
-if __name__ == "__main__":
-    main()
