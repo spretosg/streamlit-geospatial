@@ -20,34 +20,34 @@ back as a geojson feature via the `all_drawings` and `last_active_drawing` data 
 
 Draw something below to see the return value back to Streamlit!
 """
+import ee
+from google.oauth2 import service_account
+from google.cloud import bigquery
+
+from streamlit_folium import st_folium
+ # Create API client.
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+ )
+client = bigquery.Client(credentials=credentials)
+
+rectangle = ee.Geometry.Rectangle(-122.09, 37.42, -122.08, 37.43)
+
+# Add the rectangle geometry to a FeatureCollection
+rectangle_fc = ee.FeatureCollection(rectangle)
+
+task = ee.batch.Export.table.toBigQuery(
+        collection=rectangle_fc,
+        table='pareus.earth_engine.mytable',
+        description='put_my_data_in_bigquery',
+        append=True)
+task.start()
 
 with st.echo(code_location="below"):
     import folium
     import streamlit as st
     from folium.plugins import Draw
-    import ee
-    from google.oauth2 import service_account
-    from google.cloud import bigquery
 
-    from streamlit_folium import st_folium
-
-    # Create API client.
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
-
-    rectangle = ee.Geometry.Rectangle(-122.09, 37.42, -122.08, 37.43)
-
-    # Add the rectangle geometry to a FeatureCollection
-    rectangle_fc = ee.FeatureCollection(rectangle)
-
-    task = ee.batch.Export.table.toBigQuery(
-      collection=rectangle_fc,
-      table='pareus.earth_engine.mytable',
-      description='put_my_data_in_bigquery',
-      append=False)
-    task.start()
 
     m = folium.Map(location=[64, 10], zoom_start=5)
     Draw(
