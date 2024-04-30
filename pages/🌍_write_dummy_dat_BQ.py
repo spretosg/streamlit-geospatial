@@ -24,7 +24,7 @@ def main():
       collection=rectangle_fc,
       table='pareus.earth_engine.mytable',
       description='put_my_data_in_bigquery',
-      append=False)
+      append=True)
     task.start()
 
     # Load an Earth Engine image
