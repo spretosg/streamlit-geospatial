@@ -1,8 +1,14 @@
 import ee
 import streamlit as st
 import folium
-import random
+from google.oauth2 import service_account
+from google.cloud import bigquery
 
+
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+    )
+client = bigquery.Client(credentials=credentials)
 
 # Function to display an EE Image on a folium map
 def display_ee_image(image, region, vis_params={}):
@@ -23,7 +29,7 @@ def main():
     task = ee.batch.Export.table.toBigQuery(
       collection=rectangle_fc,
       table='pareus.earth_engine.mytable',
-      description='put_my_data_in_bigquery',
+      description='test_task',
       append=True)
     task.start()
 
