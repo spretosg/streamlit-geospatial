@@ -35,16 +35,6 @@ st.sidebar.info(
     """
 )
 
-rectangle = ee.Geometry.Rectangle(-88.09, 37.42, -122.08, 37.43)
-
-    # Add the rectangle geometry to a FeatureCollection
-rectangle_fc = ee.FeatureCollection(rectangle)
-task = ee.batch.Export.table.toBigQuery(
-      collection=rectangle_fc,
-      table='pareus.earth_engine.mytable',
-      description='test_task1',
-      append=True)
-task.start()
 
 goes_rois = {
     "Creek Fire, CA (2020-09-05)": {
