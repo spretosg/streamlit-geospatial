@@ -13,8 +13,8 @@ credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
 #ee.Initialize()
-def ee_authenticate(token_name="EARTHENGINE_TOKEN"):
-    geemap.ee_initialize(token_name=token_name)
+geemap.ee_initialize()
+    
 
 rectangle = ee.Geometry.Rectangle(-88.09, 37.42, -122.08, 37.43)
 
