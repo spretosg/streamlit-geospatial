@@ -13,9 +13,9 @@ credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
 #ee.Initialize()
-@st.cache_data
+""" @st.cache_data
 def ee_authenticate(token_name="EARTHENGINE_TOKEN"):
-    geemap.ee_initialize(token_name=token_name)
+    geemap.ee_initialize(token_name=token_name) """
     
 
 rectangle = ee.Geometry.Rectangle(-66.09, 66.42, -122.08, 37.43)
@@ -35,5 +35,5 @@ def main():
     task.start()
 
 
-""" if __name__ == "__main__":
-    main() """
+if __name__ == "__main__":
+    main()
