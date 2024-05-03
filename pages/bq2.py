@@ -6,12 +6,15 @@ import ee
 from google.oauth2 import service_account
 from google.cloud import bigquery
 from streamlit_folium import st_folium
+import geemap.foliumap as geemap
 
     # Create API client.
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-ee.Initialize()
+#ee.Initialize()
+def ee_authenticate(token_name="EARTHENGINE_TOKEN"):
+    geemap.ee_initialize(token_name=token_name)
 
 rectangle = ee.Geometry.Rectangle(-88.09, 37.42, -122.08, 37.43)
 
