@@ -23,7 +23,7 @@ rectangle = ee.Geometry.Rectangle(-77.09, 37.42, -122.08, 37.43)
 def main():
     st.title('dummy data to bq')
 
-    rectangle = ee.Geometry.Rectangle(-77.09, 37.42, -122.08, 37.43)
+"""     rectangle = ee.Geometry.Rectangle(-77.09, 37.42, -122.08, 37.43)
 
     # Add the rectangle geometry to a FeatureCollection
     rectangle_fc = ee.FeatureCollection(rectangle)
@@ -32,7 +32,7 @@ def main():
       table='pareus.earth_engine.mytable',
       description='test_task3',
       append=True)
-    task.start()
+    task.start() """
 
 
 if __name__ == "__main__":
