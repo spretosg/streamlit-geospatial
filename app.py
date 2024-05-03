@@ -1,11 +1,9 @@
 import streamlit as st
 import leafmap.foliumap as leafmap
 import geemap.foliumap as geemap
+import ee
 
-def ee_authenticate(token_name="EARTHENGINE_TOKEN"):
-    geemap.ee_initialize(token_name=token_name)
-
-st.set_page_config(layout="wide")
+ee.Initialize()
 
 st.sidebar.info(
     """
