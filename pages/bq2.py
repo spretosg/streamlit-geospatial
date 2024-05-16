@@ -24,14 +24,14 @@ def ee_authenticate(token_name="EARTHENGINE_TOKEN"):
 def main():
     st.title('dummy data to bq')
 
-    rectangle = ee.Geometry.Rectangle(-100.09, 66.42, -122.08, 37.43)
+    rectangle = ee.Geometry.Rectangle(-109.09, 66.42, -122.08, 37.43)
 
     # Add the rectangle geometry to a FeatureCollection
     rectangle_fc = ee.FeatureCollection(rectangle)
     task = ee.batch.Export.table.toBigQuery(
       collection=rectangle_fc,
       table='pareus.earth_engine.mytable',
-      description='test_task6',
+      description='streamlit_gee_bq_task',
       append=True)
     task.start()
 
